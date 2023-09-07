@@ -186,6 +186,11 @@ class BYTETracker:
         lost_stracks = []
         removed_stracks = []
 
+        #Limpar a detecção das bolas
+        player_idx = results.cls != 0
+        if True in player_idx:
+            results = results[player_idx]
+
         scores = results.conf
         bboxes = results.xyxy
         # Add index
