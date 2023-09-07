@@ -53,8 +53,7 @@ def on_predict_postprocess_end(predictor):
         ball_idx = predictor.results[i].boxes.cls == 0 # Captura os índices das detecções da bola
         if True in ball_idx: # Há detecções da bola
             # Armazena as bounding boxes das detecções da bola
-            ball_detections = predictor.results[i][ball_idx].cpu()
-            ball_bboxes = ball_detections.boxes.data.cpu().numpy()
+            ball_bboxes = predictor.results[i][ball_idx].boxes.cpu().numpy().boxes
             # Altera o array das bboxes para ser compatível com o array do tracking
             ball_bboxes = np.insert(ball_bboxes, 4, -1, axis=1) # xyxy, track_id = -1, conf, cls
             ball_bboxes = np.append(ball_bboxes, np.full((ball_bboxes.shape[0], 1), -1), axis=1) # xyxy, track_id = -1, conf, cls, idx = -1
