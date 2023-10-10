@@ -14,9 +14,9 @@ Training a deep learning model involves feeding it data and adjusting its parame
 
 <p align="center">
   <br>
-  <iframe width="720" height="405" src="https://www.youtube.com/embed/LNwODJXcvt4?si=7n1UvGRLSd9p5wKs" 
-    title="YouTube video player" frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  <iframe width="720" height="405" src="https://www.youtube.com/embed/LNwODJXcvt4?si=7n1UvGRLSd9p5wKs"
+    title="YouTube video player" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
   </iframe>
   <br>
@@ -189,7 +189,7 @@ Training settings for YOLO models refer to the various hyperparameters and confi
 | `project`         | `None`   | project name                                                                                   |
 | `name`            | `None`   | experiment name                                                                                |
 | `exist_ok`        | `False`  | whether to overwrite existing experiment                                                       |
-| `pretrained`      | `True`   | (bool \| str) whether to use a pretrained model (bool) or a model to load weights from (str)   |
+| `pretrained`      | `True`   | (bool or str) whether to use a pretrained model (bool) or a model to load weights from (str)   |
 | `optimizer`       | `'auto'` | optimizer to use, choices=[SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, auto]              |
 | `verbose`         | `False`  | whether to print verbose output                                                                |
 | `seed`            | `0`      | random seed for reproducibility                                                                |
@@ -202,7 +202,7 @@ Training settings for YOLO models refer to the various hyperparameters and confi
 | `amp`             | `True`   | Automatic Mixed Precision (AMP) training, choices=[True, False]                                |
 | `fraction`        | `1.0`    | dataset fraction to train on (default is 1.0, all images in train set)                         |
 | `profile`         | `False`  | profile ONNX and TensorRT speeds during training for loggers                                   |
-| `freeze`          | `None`   | (int \| list, optional) freeze first n layers, or freeze list of layer indices during training |
+| `freeze`          | `None`   | (int or list, optional) freeze first n layers, or freeze list of layer indices during training |
 | `lr0`             | `0.01`   | initial learning rate (i.e. SGD=1E-2, Adam=1E-3)                                               |
 | `lrf`             | `0.01`   | final learning rate (lr0 * lrf)                                                                |
 | `momentum`        | `0.937`  | SGD momentum/Adam beta1                                                                        |
@@ -240,7 +240,7 @@ To use Comet:
         ```python
         # pip install comet_ml
         import comet_ml
-        
+
         comet_ml.init()
         ```
 
@@ -258,7 +258,7 @@ To use ClearML:
         ```python
         # pip install clearml
         import clearml
-        
+
         clearml.browser_login()
         ```
 

@@ -44,7 +44,10 @@ def smart_inference_mode():
 
     def decorate(fn):
         """Applies appropriate torch decorator for inference mode based on torch version."""
-        return (torch.inference_mode if TORCH_1_9 else torch.no_grad)()(fn)
+        if TORCH_1_9 and torch.is_inference_mode_enabled():
+            return fn  # already in inference_mode, act as a pass-through
+        else:
+            return (torch.inference_mode if TORCH_1_9 else torch.no_grad)()(fn)
 
     return decorate
 
@@ -132,7 +135,7 @@ def select_device(device='', batch=0, newline=False, verbose=True):
             p = torch.cuda.get_device_properties(i)
             s += f"{'' if i == 0 else space}CUDA:{d} ({p.name}, {p.total_memory / (1 << 20):.0f}MiB)\n"  # bytes to MB
         arg = 'cuda:0'
-    elif mps and getattr(torch, 'has_mps', False) and torch.backends.mps.is_available() and TORCH_2_0:
+    elif mps and TORCH_2_0 and torch.backends.mps.is_available():
         # Prefer MPS if available
         s += f'MPS ({get_cpu_info()})\n'
         arg = 'mps'
@@ -202,7 +205,11 @@ def fuse_deconv_and_bn(deconv, bn):
 
 
 def model_info(model, detailed=False, verbose=True, imgsz=640):
-    """Model information. imgsz may be int or list, i.e. imgsz=640 or imgsz=[640, 320]."""
+    """
+    Model information.
+
+    imgsz may be int or list, i.e. imgsz=640 or imgsz=[640, 320].
+    """
     if not verbose:
         return
     n_p = get_num_params(model)  # number of parameters
@@ -514,13 +521,11 @@ def profile(input, ops, n=10, device=None):
 
 
 class EarlyStopping:
-    """
-    Early stopping class that stops training when a specified number of epochs have passed without improvement.
-    """
+    """Early stopping class that stops training when a specified number of epochs have passed without improvement."""
 
     def __init__(self, patience=50):
         """
-        Initialize early stopping object
+        Initialize early stopping object.
 
         Args:
             patience (int, optional): Number of epochs to wait after fitness stops improving before stopping.
@@ -532,7 +537,7 @@ class EarlyStopping:
 
     def __call__(self, epoch, fitness):
         """
-        Check whether to stop training
+        Check whether to stop training.
 
         Args:
             epoch (int): Current epoch of training
